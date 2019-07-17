@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '{{ .Values.service.metrics.port }}'
+    spec:
+      containers:
+      - name: http-router
+        env:
+        - name: HPE_BES1
+          value: "{{ .Values.container.httpRouter.environment.bes1 }}"
+        - name: HUAWEI_BES1
+          value: "{{ .Values.container.httpRouter.environment.bes2 }}"
+        - name: DATABASEPASSWORD
+          value: "{{ .Values.container.httpRouter.environment.dbPass }}"
+        - name: DATABASEUSER
+          value: "{{ .Values.container.httpRouter.environment.dbUser }}"
+        - name: DATABASEURL
+          value: "{{ .Values.container.httpRouter.environment.dbURL }}"
+        - name: HTTPSERVER_PORT
+          value: "{{ .Values.service.http.targetPort }}"
+        - name: NAME
+          value: "{{ .Values.container.httpRouter.environment.name }}"
+        - name: SERVER_TYPE
+          value: "{{ .Values.container.httpRouter.environment.serverType }}"
+        - name: CFG_ARCHIVE
+          value: "{{`/config/`}}{{ .Values.container.httpRouter.environment.name }}{{`.zip`}}"
+        - name: RECONNECT_INTERVAL
+          value: "1000"
+        - name: JMXURL
+          value: "localhost:1099"
+        image: "{{ .Values.image.httpRouter.repository }}{{ .Values.image.httpRouter.name }}:{{ .Values.image.httpRouter.tag }}"
+        imagePullPolicy: {{ .Values.image.httpRouter.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volume.eiumconfig.name }}
+          mountPath: /config
+        ports:
+        - name: {{ .Values.service.http.name }}
+          containerPort: {{ .Values.service.http.targetPort }}
+        - name: {{ .Values.service.metrics.name }}
+          containerPort: {{ .Values.service.metrics.targetPort }}
+      volumes:
+      - name: {{ .Values.volume.eiumconfig.name }}
+        hostPath:
+          path: {{ .Values.volume.eiumconfig.hostPath }}

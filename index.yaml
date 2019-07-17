@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  http-backend:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-07-17T11:56:44.8072571+03:00"
+    description: A Helm chart for Kubernetes
+    digest: d19f2c7389aed5a79b19830a003e7c9d229795b52d35e22731360e079970df34
+    name: http-backend
+    urls:
+    - https://github.com/j-beaver/helm-chart/http-backend-0.1.0.tgz
+    version: 0.1.0
+  http-router:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-07-17T11:56:44.8075221+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 93b2fa22158a5545521d93eef3d418a003954bebdb0fd2043b6f7d5fcb9b1ed8
+    name: http-router
+    urls:
+    - https://github.com/j-beaver/helm-chart/http-router-0.1.0.tgz
+    version: 0.1.0
+generated: "2019-07-17T11:56:44.8066449+03:00"

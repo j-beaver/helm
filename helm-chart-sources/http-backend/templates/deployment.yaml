@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }} 
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }} 
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }} 
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '{{ .Values.service.metrics.port }}'
+    spec:
+      containers:
+      - name: http-backend-server
+        env:
+        - name: HTTP_PORT
+          value: "{{ .Values.service.http.targetPort }}"
+        - name: JMXURL
+          value: "localhost:1099"
+        - name: NAME
+          value: "{{ .Values.container.httpServer.environment.name }}"
+        - name: SERVER_TYPE
+          value: "{{ .Values.container.httpServer.environment.serverType }}"
+        - name: CFG_ARCHIVE  
+          value: "{{`/config/`}}{{ .Values.container.httpServer.environment.name }}{{`.zip`}}"
+        image: "{{ .Values.image.httpServer.repository }}{{ .Values.image.httpServer.name }}:{{ .Values.image.httpServer.tag }}"
+        imagePullPolicy: {{ .Values.image.httpServer.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volume.eiumconfig.name }}
+          mountPath: /config
+        ports:
+        - name: {{ .Values.service.http.name }}
+          containerPort: {{ .Values.service.http.targetPort }}
+        - name: {{ .Values.service.metrics.name }}
+          containerPort: {{ .Values.service.metrics.targetPort }}
+      volumes:
+      - name: {{ .Values.volume.eiumconfig.name }}
+        hostPath:
+          path: {{ .Values.volume.eiumconfig.hostPath }}
