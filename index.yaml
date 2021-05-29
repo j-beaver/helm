@@ -1,23 +1,139 @@
 apiVersion: v1
 entries:
-  http-backend:
-  - apiVersion: v1
-    appVersion: "1.0"
-    created: "2019-07-17T11:56:44.8072571+03:00"
+  eiumserver:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-05-29T17:58:18.698532823+03:00"
     description: A Helm chart for Kubernetes
-    digest: d19f2c7389aed5a79b19830a003e7c9d229795b52d35e22731360e079970df34
-    name: http-backend
+    digest: 5388bd9788da71a38a0434fb20953166e6904fd01e8d36241b6d5b00e5e9c631
+    name: eiumserver
+    type: application
     urls:
-    - http-backend-0.1.0.tgz
+    - https://j-beaver.github.io/helm-chart/eiumserver-0.1.0.tgz
     version: 0.1.0
-  http-router:
+  elasticsearch:
   - apiVersion: v1
-    appVersion: "1.0"
-    created: "2019-07-17T11:56:44.8075221+03:00"
-    description: A Helm chart for Kubernetes
-    digest: 93b2fa22158a5545521d93eef3d418a003954bebdb0fd2043b6f7d5fcb9b1ed8
-    name: http-router
+    appVersion: 7.10.2
+    created: "2021-05-29T17:58:18.706561442+03:00"
+    description: Official Elastic helm chart for Elasticsearch
+    digest: cc6ad0d8b510ca8800ae0e1295e57efdac1be28cf20775d66c15ea9d096f661f
+    home: https://github.com/elastic/helm-charts
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    maintainers:
+    - email: helm-charts@elastic.co
+      name: Elastic
+    name: elasticsearch
+    sources:
+    - https://github.com/elastic/elasticsearch
     urls:
-    - http-router-0.1.0.tgz
+    - https://j-beaver.github.io/helm-chart/elasticsearch-7.10.2.tgz
+    version: 7.10.2
+  fluentd:
+  - apiVersion: v2
+    appVersion: v1.12.0
+    created: "2021-05-29T17:58:18.711519461+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 6c0439028d6766ba26192507b3b68d88e170e1ab1d40f8cc0a9f7ef7a99c386e
+    home: https://www.fluentd.org/
+    icon: https://www.fluentd.org/assets/img/miscellany/fluentd-logo_2x.png
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    name: fluentd
+    sources:
+    - https://github.com/fluent/fluentd/
+    - https://github.com/fluent/fluentd-kubernetes-daemonset
+    urls:
+    - https://j-beaver.github.io/helm-chart/fluentd-0.2.2.tgz
+    version: 0.2.2
+  grafana:
+  - apiVersion: v2
+    appVersion: 7.4.0
+    created: "2021-05-29T17:58:18.725742845+03:00"
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 98c4c5041f1358413572080e67daec11565686a87f8f0acc17d2b0d767a17269
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: rluckie@cisco.com
+      name: rtluckie
+    - email: maor.friedman@redhat.com
+      name: maorfr
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: mail@torstenwalter.de
+      name: torstenwalter
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    type: application
+    urls:
+    - https://j-beaver.github.io/helm-chart/grafana-6.4.0.tgz
+    version: 6.4.0
+  kibana:
+  - apiVersion: v1
+    appVersion: 7.10.2
+    created: "2021-05-29T17:58:18.730023519+03:00"
+    description: Official Elastic helm chart for Kibana
+    digest: 2e167d83cff2dece476701ac4ff19f19b04e3eeee7f707f6ee85750b438f5a67
+    home: https://github.com/elastic/helm-charts
+    icon: https://helm.elastic.co/icons/kibana.png
+    maintainers:
+    - email: helm-charts@elastic.co
+      name: Elastic
+    name: kibana
+    sources:
+    - https://github.com/elastic/kibana
+    urls:
+    - https://j-beaver.github.io/helm-chart/kibana-7.10.2.tgz
+    version: 7.10.2
+  prometheus:
+  - apiVersion: v2
+    appVersion: 2.24.0
+    created: "2021-05-29T17:58:18.746989533+03:00"
+    dependencies:
+    - condition: kubeStateMetrics.enabled
+      name: kube-state-metrics
+      repository: https://kubernetes.github.io/kube-state-metrics
+      version: 2.9.*
+    description: Prometheus is a monitoring system and time series database.
+    digest: 4c078e919c24daf2d2eac1591e4b38ae2e62667dc7454882570c38e893a8484f
+    home: https://prometheus.io/
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    maintainers:
+    - email: gianrubio@gmail.com
+      name: gianrubio
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: monotek23@gmail.com
+      name: monotek
+    - email: naseem@transit.app
+      name: naseemkullah
+    name: prometheus
+    sources:
+    - https://github.com/prometheus/alertmanager
+    - https://github.com/prometheus/prometheus
+    - https://github.com/prometheus/pushgateway
+    - https://github.com/prometheus/node_exporter
+    - https://github.com/kubernetes/kube-state-metrics
+    type: application
+    urls:
+    - https://j-beaver.github.io/helm-chart/prometheus-13.3.2.tgz
+    version: 13.3.2
+  sessionserver:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-05-29T17:58:18.767896387+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 85fc7dd0eb8432f9406f71282c395485577022dc11d07f7930355570ab395993
+    name: sessionserver
+    type: application
+    urls:
+    - https://j-beaver.github.io/helm-chart/sessionserver-0.1.0.tgz
     version: 0.1.0
-generated: "2019-07-17T11:56:44.8066449+03:00"
+generated: "2021-05-29T17:58:18.696029407+03:00"
